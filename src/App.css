@@ -1,0 +1,70 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.connectionErrorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90vw;
+}
+
+.connectionError {
+  margin-bottom: var(--spacing-page);
+  max-width: 600px;
+}
+
+.footer {
+  position: fixed;
+  bottom: var(--spacing);
+  left: var(--spacing);
+  right: var(--spacing);
+}
+
+.device {
+  position: fixed;
+  left: var(--spacing);
+  top: var(--spacing);
+  display: flex;
+  align-items: center;
+  color: var(--c-white);
+}
+
+.powerOff {
+  position: relative;
+  font-size: 4vmin;
+  width: 4vmin;
+  height: 4vmin;
+  cursor: pointer;
+  opacity: 0.6;
+  color: var(--c-white);
+  @mixin transition;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.powerOffLoader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.deviceInfo {
+  font-size: 0.9vmin;
+  margin-left: 1vmin;
+
+  p + p {
+    margin-top: 0.2em;
+  }
+}
