@@ -24,15 +24,17 @@ const IntensityControls = ({
   }, []);
 
   return init ? (
-    <input
-      type="range"
-      min={50}
-      max={255}
-      value={value}
-      onMouseUp={(e) =>
-        setValue(parseInt((e.target as HTMLInputElement).value))
-      }
-    />
+    <div>
+      <input
+        type="range"
+        min={50}
+        max={255}
+        value={value}
+        onMouseUp={(e) =>
+          setValue(parseInt((e.target as HTMLInputElement).value))
+        }
+      />
+    </div>
   ) : null;
 };
 

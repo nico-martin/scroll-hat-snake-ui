@@ -6,9 +6,9 @@
 
 .powerOff {
   position: relative;
-  font-size: 4vmin;
-  width: 4vmin;
-  height: 4vmin;
+  font-size: 45px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
   opacity: 0.6;
   color: var(--c-white);
@@ -31,10 +31,10 @@
 }
 
 .deviceInfo {
-  font-size: 1.4vmin;
-  margin-left: 1vmin;
+  font-size: 12px;
+  margin-left: 6px;
 
   p + p {
-    margin-top: 0.2em;
+    margin-top: 6px;
   }
 }

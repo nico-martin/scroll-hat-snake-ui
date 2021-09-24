@@ -7,6 +7,7 @@ import BluetoothButton from './app/BluetoothButton';
 import ControlPanel from './app/ControlPanel';
 import Device from './app/Device';
 import Footer from './app/Footer';
+import IntensityControls from './app/IntensityControls';
 
 const BROWSER_SUPPORT = 'bluetooth' in navigator;
 
@@ -126,8 +127,11 @@ const App = () => {
             charDirections={bleCharDirections}
             charSnakeLength={bleCharSnakeLength}
             charGamecount={bleCharGamecount}
-            charLed={bleCharLed}
             charGamestate={bleCharGamestate}
+          />
+          <IntensityControls
+            className={styles.ledControls}
+            charLed={bleCharLed}
           />
           <Device
             className={styles.device}

@@ -8,20 +8,17 @@ const ControlPanel = ({
   charDirections,
   charSnakeLength,
   charGamecount,
-  charLed,
   charGamestate,
 }: {
   className?: string;
   charDirections: BluetoothRemoteGATTCharacteristic;
   charSnakeLength: BluetoothRemoteGATTCharacteristic;
   charGamecount: BluetoothRemoteGATTCharacteristic;
-  charLed: BluetoothRemoteGATTCharacteristic;
   charGamestate: BluetoothRemoteGATTCharacteristic;
 }) => {
   return (
     <div>
       <Score charSnakeLength={charSnakeLength} />
-      <IntensityControls charLed={charLed} />
       <ArrowControls
         onChange={(dirIndex) =>
           charDirections.writeValue(new Uint8Array([dirIndex]))
