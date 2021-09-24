@@ -21,11 +21,13 @@ const Score = ({
     );
     charSnakeLength.startNotifications();
 
-    return () =>
+    return () => {
       charSnakeLength.removeEventListener(
         'characteristicvaluechanged',
         handleNotifications
       );
+      charSnakeLength.stopNotifications();
+    };
   }, []);
 
   return <p>Score: {score}</p>;

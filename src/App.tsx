@@ -5,11 +5,15 @@ import cn from '@common/utils/classnames';
 import styles from './App.css';
 import BluetoothButton from './app/BluetoothButton';
 import ControlPanel from './app/ControlPanel';
+import Device from './app/Device';
 import Footer from './app/Footer';
 
 const BROWSER_SUPPORT = 'bluetooth' in navigator;
 
 const BLE_UUID = {
+  SERVICE_BATTERY: 0x180f,
+  CHAR_BATTERY: 0x2a19,
+  CHAR_BATTERY_LOADING: '17324f48-a9c3-487a-83ff-e6046cf48b51',
   SERVICE_GAME: '75c7c8d2-7121-4267-b885-eb3f4a21faf5',
   CHAR_DIRECTIONS: '35a1022c-fdd3-11eb-9a03-0242ac130003',
   CHAR_SNAKE_LENGTH: 'b7d1871e-766f-4382-831f-525d14c32d1e',
@@ -20,6 +24,10 @@ const BLE_UUID = {
 
 const App = () => {
   const [bleDevice, setBleDevice] = React.useState<BluetoothDevice>(null);
+  const [bleCharBattery, setBleCharBattery] =
+    React.useState<BluetoothRemoteGATTCharacteristic>(null);
+  const [bleCharBatteryLoading, setBleCharBatteryLoading] =
+    React.useState<BluetoothRemoteGATTCharacteristic>(null);
   const [bleCharDirections, setBleCharDirections] =
     React.useState<BluetoothRemoteGATTCharacteristic>(null);
   const [bleCharSnakeLength, setBleCharSnakeLength] =
@@ -32,7 +40,6 @@ const App = () => {
     React.useState<BluetoothRemoteGATTCharacteristic>(null);
   const [buttonLoading, setButtonLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>('');
-  const [powerOffLoading, setPowerOffLoading] = React.useState<boolean>(false);
 
   const onDisconnected = (event) => {
     const device = event.target;
@@ -46,12 +53,15 @@ const App = () => {
       const device: BluetoothDevice = await navigator.bluetooth.requestDevice({
         //acceptAllDevices: true,
         filters: [{ name: 'Scroll Hat Snake' }],
-        optionalServices: [BLE_UUID.SERVICE_GAME],
+        optionalServices: [BLE_UUID.SERVICE_GAME, BLE_UUID.SERVICE_BATTERY],
       });
       setBleDevice(device);
       device.addEventListener('gattserverdisconnected', onDisconnected);
       const server = await device.gatt.connect();
       const serviceGame = await server.getPrimaryService(BLE_UUID.SERVICE_GAME);
+      const serviceBattery = await server.getPrimaryService(
+        BLE_UUID.SERVICE_BATTERY
+      );
 
       Promise.all([
         serviceGame.getCharacteristic(BLE_UUID.CHAR_DIRECTIONS),
@@ -59,13 +69,27 @@ const App = () => {
         serviceGame.getCharacteristic(BLE_UUID.CHAR_GAMECOUNT),
         serviceGame.getCharacteristic(BLE_UUID.CHAR_LED_INTENSITY),
         serviceGame.getCharacteristic(BLE_UUID.CHAR_GAMESTATE),
-      ]).then(([directions, snakeLength, gamecount, led, gamestate]) => {
-        setBleCharDirections(directions);
-        setBleCharSnakeLength(snakeLength);
-        setBleCharGamecount(gamecount);
-        setBleCharLed(led);
-        setBleCharGamestate(gamestate);
-      });
+        serviceBattery.getCharacteristic(BLE_UUID.CHAR_BATTERY),
+        serviceBattery.getCharacteristic(BLE_UUID.CHAR_BATTERY_LOADING),
+      ]).then(
+        ([
+          directions,
+          snakeLength,
+          gamecount,
+          led,
+          gamestate,
+          battery,
+          batteryLoading,
+        ]) => {
+          setBleCharDirections(directions);
+          setBleCharSnakeLength(snakeLength);
+          setBleCharGamecount(gamecount);
+          setBleCharLed(led);
+          setBleCharGamestate(gamestate);
+          setBleCharBattery(battery);
+          setBleCharBatteryLoading(batteryLoading);
+        }
+      );
     } catch (error) {
       setError(error.toString());
     }
@@ -105,30 +129,12 @@ const App = () => {
             charLed={bleCharLed}
             charGamestate={bleCharGamestate}
           />
-          <div className={styles.device}>
-            <button
-              className={styles.powerOff}
-              disabled={powerOffLoading}
-              onClick={() => {
-                if (bleDevice) {
-                  bleDevice.gatt.disconnect();
-                  setPowerOffLoading(false);
-                }
-              }}
-            >
-              {powerOffLoading ? (
-                <Loader className={styles.powerOffLoader} />
-              ) : (
-                <Icon icon="mdi/power" />
-              )}
-            </button>
-            <div className={styles.deviceInfo}>
-              <p>
-                <b>Device Info</b>
-              </p>
-              <p>Name: {bleDevice.name}</p>
-            </div>
-          </div>
+          <Device
+            className={styles.device}
+            bleDevice={bleDevice}
+            bleCharBattery={bleCharBattery}
+            bleCharBatteryLoading={bleCharBatteryLoading}
+          />
         </React.Fragment>
       )}
       <Footer className={cn(styles.footer)} />
