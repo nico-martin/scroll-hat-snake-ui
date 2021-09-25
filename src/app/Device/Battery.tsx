@@ -4,8 +4,6 @@ import cn from '@common/utils/classnames';
 import useBLENotification from '../hooks/useBLENotification';
 import styles from './Battery.css';
 
-const decoder = new TextDecoder();
-
 const Battery = ({
   className = '',
   bleCharBattery,
@@ -15,8 +13,8 @@ const Battery = ({
   bleCharBattery: BluetoothRemoteGATTCharacteristic;
   bleCharBatteryLoading: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const battery = useBLENotification(bleCharBattery);
-  const batteryLoading = useBLENotification(bleCharBatteryLoading);
+  const { value: battery } = useBLENotification(bleCharBattery);
+  const { value: batteryLoading } = useBLENotification(bleCharBatteryLoading);
 
   const batteryValue: number = battery ? battery.getUint8(0) : 0;
   const batteryLoadingValue: boolean = batteryLoading

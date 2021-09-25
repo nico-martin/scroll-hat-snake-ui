@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon } from '@theme';
 import cn from '@common/utils/classnames';
 import styles from './IntensityControls.css';
 import useBLENotification from './hooks/useBLENotification';
@@ -11,7 +12,7 @@ const IntensityControls = ({
   charLed: BluetoothRemoteGATTCharacteristic;
 }) => {
   const [value, setValue] = React.useState<number>(null);
-  const ledValue = useBLENotification(charLed);
+  const { value: ledValue } = useBLENotification(charLed);
   const intensity = ledValue ? ledValue.getUint8(0) : null;
 
   React.useEffect(() => {
@@ -24,6 +25,7 @@ const IntensityControls = ({
 
   return value ? (
     <div className={cn(className, styles.root)}>
+      <Icon icon="mdi/brightness-half" className={styles.icon} />
       <input
         className={cn(styles.input)}
         type="range"

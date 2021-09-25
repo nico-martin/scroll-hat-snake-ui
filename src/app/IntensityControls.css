@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 0.5em;
+  opacity: 0.6;
+  color: var(--c-white);
+}
+
+.input {
+  accent-color: var(--c-bluetooth);
+}
