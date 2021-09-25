@@ -123,21 +123,24 @@ const App = () => {
         </div>
       ) : (
         <React.Fragment>
+          <div className={styles.header}>
+            <Device
+              className={styles.device}
+              bleDevice={bleDevice}
+              bleCharBattery={bleCharBattery}
+              bleCharBatteryLoading={bleCharBatteryLoading}
+            />
+            <IntensityControls
+              className={styles.ledControls}
+              charLed={bleCharLed}
+            />
+          </div>
           <ControlPanel
+            className={styles.controlPanel}
             charDirections={bleCharDirections}
             charSnakeLength={bleCharSnakeLength}
             charGamecount={bleCharGamecount}
             charGamestate={bleCharGamestate}
-          />
-          <IntensityControls
-            className={styles.ledControls}
-            charLed={bleCharLed}
-          />
-          <Device
-            className={styles.device}
-            bleDevice={bleDevice}
-            bleCharBattery={bleCharBattery}
-            bleCharBatteryLoading={bleCharBatteryLoading}
           />
         </React.Fragment>
       )}

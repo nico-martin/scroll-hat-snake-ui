@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '@theme';
 import cn from '@common/utils/classnames';
+import useBLENotification from '../hooks/useBLENotification';
 import styles from './Battery.css';
 
 const decoder = new TextDecoder();
@@ -14,56 +15,22 @@ const Battery = ({
   bleCharBattery: BluetoothRemoteGATTCharacteristic;
   bleCharBatteryLoading: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const [batteryPercentage, setBatteryPercentage] = React.useState<number>(0);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const battery = useBLENotification(bleCharBattery);
+  const batteryLoading = useBLENotification(bleCharBatteryLoading);
 
-  const updateBatteryPercentage = (e) =>
-    setBatteryPercentage(e.target.value.getUint8(0));
-  const updateBatteryLoading = (e) =>
-    setIsLoading(e.target.value.getUint8(0) === 1);
-
-  React.useEffect(() => {
-    bleCharBattery
-      .readValue()
-      .then((value) => setBatteryPercentage(value.getUint8(0)));
-    bleCharBatteryLoading
-      .readValue()
-      .then((value) => setIsLoading(value.getUint8(0) === 1));
-
-    bleCharBattery.addEventListener(
-      'characteristicvaluechanged',
-      updateBatteryPercentage
-    );
-    bleCharBatteryLoading.addEventListener(
-      'characteristicvaluechanged',
-      updateBatteryLoading
-    );
-
-    bleCharBattery.startNotifications();
-    bleCharBatteryLoading.startNotifications();
-
-    return () => {
-      bleCharBattery.removeEventListener(
-        'characteristicvaluechanged',
-        updateBatteryPercentage
-      );
-      bleCharBatteryLoading.removeEventListener(
-        'characteristicvaluechanged',
-        updateBatteryPercentage
-      );
-      bleCharBattery.stopNotifications();
-      bleCharBatteryLoading.stopNotifications();
-    };
-  }, []);
+  const batteryValue: number = battery ? battery.getUint8(0) : 0;
+  const batteryLoadingValue: boolean = batteryLoading
+    ? batteryLoading.getUint8(0) === 1
+    : false;
 
   const batteryStep = React.useMemo(
-    () => Math.ceil(batteryPercentage / 10) * 10,
-    [batteryPercentage]
+    () => Math.ceil(batteryValue / 10) * 10,
+    [batteryValue]
   );
 
   return (
     <p className={cn(className, styles.root)}>
-      {batteryPercentage === 0 ? (
+      {batteryValue === 0 ? (
         <span>...</span>
       ) : (
         <span className={styles.battery}>
@@ -71,7 +38,7 @@ const Battery = ({
             className={styles.batteryIcon}
             icon={`mdi/battery-${batteryStep === 0 ? 10 : batteryStep}`}
           />{' '}
-          {batteryPercentage}% {isLoading && <Icon icon="mdi/lightning" />}
+          {batteryValue}% {batteryLoadingValue && <Icon icon="mdi/lightning" />}
         </span>
       )}
     </p>
