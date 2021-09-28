@@ -6,9 +6,11 @@ import styles from './ArrowControls.css';
 const ArrowControls = ({
   className = '',
   onChange,
+  disabled = false,
 }: {
   className?: string;
   onChange: (direction: number) => void;
+  disabled?: boolean;
 }) => {
   const up = () => onChange(0x00);
   const left = () => onChange(0x01);
@@ -28,11 +30,11 @@ const ArrowControls = ({
   };
 
   React.useEffect(() => {
-    window.addEventListener('keydown', keydown);
+    !disabled && window.addEventListener('keydown', keydown);
     return () => {
       window.removeEventListener('keydown', keydown);
     };
-  });
+  }, [disabled]);
 
   return (
     <div className={cn(styles.root, className)}>

@@ -12,7 +12,10 @@ const IntensityControls = ({
   charLed: BluetoothRemoteGATTCharacteristic;
 }) => {
   const [value, setValue] = React.useState<number>(null);
-  const { value: ledValue } = useBLENotification(charLed);
+  const { value: ledValue } = useBLENotification(charLed, {
+    read: true,
+    notify: true,
+  });
   const intensity = ledValue ? ledValue.getUint8(0) : null;
 
   React.useEffect(() => {

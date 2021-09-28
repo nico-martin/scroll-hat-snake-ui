@@ -13,8 +13,14 @@ const Battery = ({
   bleCharBattery: BluetoothRemoteGATTCharacteristic;
   bleCharBatteryLoading: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const { value: battery } = useBLENotification(bleCharBattery);
-  const { value: batteryLoading } = useBLENotification(bleCharBatteryLoading);
+  const { value: battery } = useBLENotification(bleCharBattery, {
+    read: true,
+    notify: true,
+  });
+  const { value: batteryLoading } = useBLENotification(bleCharBatteryLoading, {
+    read: true,
+    notify: true,
+  });
 
   const batteryValue: number = battery ? battery.getUint8(0) : 0;
   const batteryLoadingValue: boolean = batteryLoading

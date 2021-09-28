@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Icon, Loader, Message } from '@theme';
+import { Button, Message } from '@theme';
 import cn from '@common/utils/classnames';
 import styles from './App.css';
-import BluetoothButton from './app/BluetoothButton';
 import ControlPanel from './app/ControlPanel';
 import Device from './app/Device';
 import Footer from './app/Footer';
@@ -107,11 +106,15 @@ const App = () => {
             </Message>
           )}
           {BROWSER_SUPPORT ? (
-            <BluetoothButton
+            <Button
               loading={buttonLoading}
-              connect={connect}
+              onClick={() => connect()}
+              icon="mdi/bluetooth"
               className={styles.bluetoothButton}
-            />
+              large
+            >
+              Connect
+            </Button>
           ) : (
             <Message type="error" className={styles.connectionError}>
               Your browser does not support the WebBluetooth API:{' '}

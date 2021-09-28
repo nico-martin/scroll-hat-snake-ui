@@ -2,7 +2,7 @@
   "name": "web-bluetooth-scrol-hat-snake",
   "author": "Nico Martin - https://nico.dev",
   "license": "MIT",
-  "version": "0.1.6",
+  "version": "1.0.3",
   "description": "A web-based UI for the Scroll Hat Snake",
   "scripts": {
     "dev": "npm run serve:dev & npm run build:dev",
@@ -12,6 +12,7 @@
     "serve:dev": "webpack serve --open"
   },
   "dependencies": {
+    "p-queue": "^7.1.0",
     "preact": "^10.5.14"
   },
   "devDependencies": {

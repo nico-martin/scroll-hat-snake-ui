@@ -15,28 +15,16 @@ const Device = ({
   bleCharBattery: BluetoothRemoteGATTCharacteristic;
   bleCharBatteryLoading: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const [powerOffLoading, setPowerOffLoading] = React.useState<boolean>(false);
-
   return (
     <div className={cn(className, styles.root)}>
       <button
         className={styles.powerOff}
-        disabled={powerOffLoading}
-        onClick={() => {
-          if (bleDevice) {
-            bleDevice.gatt.disconnect();
-            setPowerOffLoading(false);
-          }
-        }}
+        onClick={() => bleDevice && bleDevice.gatt.disconnect()}
       >
-        {powerOffLoading ? (
-          <Loader className={styles.powerOffLoader} />
-        ) : (
-          <Icon icon="mdi/power" />
-        )}
+        <Icon icon="mdi/power" />
       </button>
       <div className={styles.deviceInfo}>
-        <p>{bleDevice.name}</p>
+        <p>{bleDevice && bleDevice.name}</p>
         <Battery
           bleCharBattery={bleCharBattery}
           bleCharBatteryLoading={bleCharBatteryLoading}

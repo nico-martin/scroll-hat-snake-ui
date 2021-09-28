@@ -11,3 +11,19 @@
     flex-direction: row;
   }
 }
+
+.gameOver {
+  font-size: var(--fs-xxlarge);
+  color: var(--c-white);
+  font-weight: 900;
+}
+
+.about {
+  font-size: var(--fs-xlarge);
+  color: var(--c-white);
+  font-weight: 900;
+}
+
+.aboutItem + .aboutItem {
+  margin-top: 1em;
+}

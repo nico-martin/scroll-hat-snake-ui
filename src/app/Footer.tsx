@@ -38,12 +38,12 @@ const Footer = ({ className = '' }: { className?: string }) => {
       {infos && (
         <PortalBox
           close={() => setInfos(false)}
-          title="WebBluetooth Light Bulb"
+          title="WebBluetooth Scroll Hat Snake"
         >
           <div className={styles.info}>
             <p>
-              <b>WebBluetooth Scroll Hat Snake</b> is a web-based UI to control a
-              "Scroll Hat Snake" Game over WebBluetooth by{' '}
+              <b>WebBluetooth Scroll Hat Snake</b> is a web-based UI to control
+              a "Scroll Hat Snake" Game over WebBluetooth by{' '}
               <a href="https://nico.dev" target="_blank">
                 Nico Martin
               </a>
