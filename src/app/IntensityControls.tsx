@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from '@theme';
 import cn from '@common/utils/classnames';
 import styles from './IntensityControls.css';
-import useBLENotification from './hooks/useBLENotification';
+import useBLECharacteristic from './hooks/useBLECharacteristic';
 
 const IntensityControls = ({
   className = '',
@@ -12,7 +12,7 @@ const IntensityControls = ({
   charLed: BluetoothRemoteGATTCharacteristic;
 }) => {
   const [value, setValue] = React.useState<number>(null);
-  const { value: ledValue } = useBLENotification(charLed, {
+  const { value: ledValue } = useBLECharacteristic(charLed, {
     read: true,
     notify: true,
   });

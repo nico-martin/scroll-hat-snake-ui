@@ -3,7 +3,7 @@ import React from 'react';
 
 const bleQueue = new PQueue({ concurrency: 1 });
 
-const useBLENotification = (
+const useBLECharacteristic = (
   characteristic: BluetoothRemoteGATTCharacteristic,
   operations: {
     read?: boolean;
@@ -79,4 +79,4 @@ const useBLENotification = (
   return { value, writeValue, readValue };
 };
 
-export default useBLENotification;
+export default useBLECharacteristic;

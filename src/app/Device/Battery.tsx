@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@theme';
 import cn from '@common/utils/classnames';
-import useBLENotification from '../hooks/useBLENotification';
+import useBLECharacteristic from '../hooks/useBLECharacteristic';
 import styles from './Battery.css';
 
 const Battery = ({
@@ -13,14 +13,17 @@ const Battery = ({
   bleCharBattery: BluetoothRemoteGATTCharacteristic;
   bleCharBatteryLoading: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const { value: battery } = useBLENotification(bleCharBattery, {
+  const { value: battery } = useBLECharacteristic(bleCharBattery, {
     read: true,
     notify: true,
   });
-  const { value: batteryLoading } = useBLENotification(bleCharBatteryLoading, {
-    read: true,
-    notify: true,
-  });
+  const { value: batteryLoading } = useBLECharacteristic(
+    bleCharBatteryLoading,
+    {
+      read: true,
+      notify: true,
+    }
+  );
 
   const batteryValue: number = battery ? battery.getUint8(0) : 0;
   const batteryLoadingValue: boolean = batteryLoading

@@ -3,7 +3,7 @@ import { Button } from '@theme';
 import cn from '@common/utils/classnames';
 import ArrowControls from './ArrowControls';
 import styles from './ControlPanel.css';
-import useBLENotification from './hooks/useBLENotification';
+import useBLECharacteristic from './hooks/useBLECharacteristic';
 
 const decoder = new TextDecoder();
 
@@ -20,16 +20,16 @@ const ControlPanel = ({
   charGamecount: BluetoothRemoteGATTCharacteristic;
   charGamestate: BluetoothRemoteGATTCharacteristic;
 }) => {
-  const { value: snakeLengthChar } = useBLENotification(charSnakeLength, {
+  const { value: snakeLengthChar } = useBLECharacteristic(charSnakeLength, {
     read: true,
     notify: true,
   });
-  const { value: gamecountChar } = useBLENotification(charGamecount, {
+  const { value: gamecountChar } = useBLECharacteristic(charGamecount, {
     read: true,
     notify: true,
   });
   const { value: gamestateChar, writeValue: writeGamestat } =
-    useBLENotification(charGamestate, {
+    useBLECharacteristic(charGamestate, {
       read: true,
       notify: true,
       write: true,
